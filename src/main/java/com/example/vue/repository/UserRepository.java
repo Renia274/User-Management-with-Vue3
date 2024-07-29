@@ -1,12 +1,9 @@
-package com.example.vue;
+package com.example.vue.repository;
 
 
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
+import com.example.vue.data.Users;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-
-import java.util.List;
 
 @Repository
 public interface UserRepository extends JpaRepository<Users, Long> {

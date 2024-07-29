@@ -1,9 +1,8 @@
-package com.example.vue;
+package com.example.vue.data;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
 import java.time.LocalDate;
 
 @Entity
@@ -34,7 +33,7 @@ public class Users {
     @JsonManagedReference
     private Address address;
 
-    // Getters and Setters
+
     public Long getId() {
         return id;
     }

@@ -1,4 +1,4 @@
-package com.example.vue;
+package com.example.vue.controllers;
 
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;

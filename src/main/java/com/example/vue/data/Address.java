@@ -1,4 +1,4 @@
-package com.example.vue;
+package com.example.vue.data;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
