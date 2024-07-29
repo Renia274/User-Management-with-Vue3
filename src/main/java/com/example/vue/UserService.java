@@ -7,7 +7,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import java.util.List;
+
 import java.util.regex.Pattern;
 
 
@@ -43,7 +43,7 @@ public class UserService {
     }
 
 
-    private void validateUser(Users user) throws NameAndSurnameValidationException {
+    private void validateUser(Users user) throws FillingAndValidationException {
         StringBuilder validationErrors = new StringBuilder();
 
 
@@ -74,7 +74,7 @@ public class UserService {
         }
 
         if (validationErrors.length() > 0) {
-            throw new NameAndSurnameValidationException(validationErrors.toString());
+            throw new FillingAndValidationException(validationErrors.toString());
         }
     }
 

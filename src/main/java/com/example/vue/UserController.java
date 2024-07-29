@@ -6,7 +6,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import java.util.List;
 
 
 @RestController
@@ -22,7 +21,7 @@ public class UserController {
         try {
             Users savedUser = userService.saveUser(user);
             return ResponseEntity.ok(savedUser);
-        } catch (NameAndSurnameValidationException e) {
+        } catch (FillingAndValidationException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
     }
