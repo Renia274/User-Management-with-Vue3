@@ -1,59 +1,3 @@
-<template>
-  <!-- Main container for the registration form -->
-  <div class="register-container">
-    <h1>Register New User</h1>
-    <!-- Form to register a new user, prevents default submission to handle it manually -->
-    <form @submit.prevent="submitForm">
-      <div class="form-group">
-        <label for="name">Name:<span class="required-asterisk">*</span></label>
-        <!-- Input for user's name, calls validateName on blur -->
-        <input type="text" v-model="user.name" @blur="validateName" required>
-        <!-- Displays validation message for name if any -->
-        <div v-if="nameMessage" class="validation-message">{{ nameMessage }}</div>
-      </div>
-      <div class="form-group">
-        <label for="surname">Surname:<span class="required-asterisk">*</span></label>
-        <!-- Input for user's surname, calls validateSurname on blur -->
-        <input type="text" v-model="user.surname" @blur="validateSurname" required>
-        <!-- Displays validation message for surname if any -->
-        <div v-if="surnameMessage" class="validation-message">{{ surnameMessage }}</div>
-      </div>
-      <div class="form-group">
-        <label for="gender">Gender:<span class="required-asterisk">*</span></label>
-        <!-- Select for user's gender, calls validateGender on blur -->
-        <select v-model="user.gender" @blur="validateGender" required>
-          <option value="" disabled>Select Gender</option>
-          <option value="M">Male</option>
-          <option value="F">Female</option>
-        </select>
-        <!-- Displays validation message for gender if any -->
-        <div v-if="genderMessage" class="validation-message">{{ genderMessage }}</div>
-      </div>
-      <div class="form-group">
-        <label for="birthdate">Birthdate:<span class="required-asterisk">*</span></label>
-        <!-- Input for user's birthdate, calls validateBirthdate on blur -->
-        <input type="date" v-model="user.birthdate" @blur="validateBirthdate" required>
-        <!-- Displays validation message for birthdate if any -->
-        <div v-if="birthdateMessage" class="validation-message">{{ birthdateMessage }}</div>
-      </div>
-      <div class="form-group">
-        <label for="workAddress">Work Address:</label>
-        <textarea v-model="user.address.workAddress"></textarea>
-      </div>
-      <div class="form-group">
-        <label for="homeAddress">Home Address:</label>
-        <!-- Textarea for user's home address -->
-        <textarea v-model="user.address.homeAddress"></textarea>
-      </div>
-      <div class="form-group button-container">
-        <button type="submit">Register</button>
-      </div>
-    </form>
-    <!-- Displays success or error message based on form submission -->
-    <div v-if="message" :class="{'message': true, 'success': messageType === 'success', 'error': messageType === 'error'}">{{ message }}</div>
-  </div>
-</template>
-
 <script setup>
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
@@ -77,7 +21,7 @@ const nameMessage = ref(null)
 const surnameMessage = ref(null)
 const genderMessage = ref(null)
 const birthdateMessage = ref(null)
-const router = useRouter()
+// const router = useRouter()
 
 // Function to validate the name field
 const validateName = () => {
@@ -161,14 +105,72 @@ const submitForm = async () => {
 }
 </script>
 
+
+<template>
+  <!-- Main container for the registration form -->
+  <div class="register-container">
+    <h1>Register New User</h1>
+    <!-- Form to register a new user, prevents default submission to handle it manually -->
+    <form @submit.prevent="submitForm">
+      <div class="form-group">
+        <label for="name">Name:<span class="required-asterisk">*</span></label>
+        <!-- Input for user's name, calls validateName on blur -->
+        <input type="text" v-model="user.name" @blur="validateName" required>
+        <!-- Displays validation message for name if any -->
+        <div v-if="nameMessage" class="validation-message">{{ nameMessage }}</div>
+      </div>
+      <div class="form-group">
+        <label for="surname">Surname:<span class="required-asterisk">*</span></label>
+        <!-- Input for user's surname, calls validateSurname on blur -->
+        <input type="text" v-model="user.surname" @blur="validateSurname" required>
+        <!-- Displays validation message for surname if any -->
+        <div v-if="surnameMessage" class="validation-message">{{ surnameMessage }}</div>
+      </div>
+      <div class="form-group">
+        <label for="gender">Gender:<span class="required-asterisk">*</span></label>
+        <!-- Select for user's gender, calls validateGender on blur -->
+        <select v-model="user.gender" @blur="validateGender" required>
+          <option value="" disabled>Select Gender</option>
+          <option value="M">Male</option>
+          <option value="F">Female</option>
+        </select>
+        <!-- Displays validation message for gender if any -->
+        <div v-if="genderMessage" class="validation-message">{{ genderMessage }}</div>
+      </div>
+      <div class="form-group">
+        <label for="birthdate">Birthdate:<span class="required-asterisk">*</span></label>
+        <!-- Input for user's birthdate, calls validateBirthdate on blur -->
+        <input type="date" v-model="user.birthdate" @blur="validateBirthdate" required>
+        <!-- Displays validation message for birthdate if any -->
+        <div v-if="birthdateMessage" class="validation-message">{{ birthdateMessage }}</div>
+      </div>
+      <div class="form-group">
+        <label for="workAddress">Work Address:</label>
+        <textarea v-model="user.address.workAddress"></textarea>
+      </div>
+      <div class="form-group">
+        <label for="homeAddress">Home Address:</label>
+        <!-- Textarea for user's home address -->
+        <textarea v-model="user.address.homeAddress"></textarea>
+      </div>
+      <div class="form-group button-container">
+        <button type="submit">Register</button>
+      </div>
+    </form>
+    <!-- Displays success or error message based on form submission -->
+    <div v-if="message" :class="{'message': true, 'success': messageType === 'success', 'error': messageType === 'error'}">{{ message }}</div>
+  </div>
+</template>
+
+
+
 <style scoped>
-/* Container for the registration form */
 .register-container {
   max-width: 600px;
   margin: 0 auto;
 }
 
-/* Style for form groups */
+
 .form-group {
   margin-bottom: 15px;
 }
@@ -179,13 +181,13 @@ label {
   margin-bottom: 5px;
 }
 
-/* Style for required field asterisk */
+
 .required-asterisk {
   color: red;
   margin-left: 5px;
 }
 
-/* Style for form controls */
+
 input, select, textarea {
   width: 100%;
   padding: 8px;

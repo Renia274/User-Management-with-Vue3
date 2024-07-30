@@ -68,7 +68,7 @@ export default {
 }
 
 .highlight {
-  color: #007bff; /* Highlight color for user details */
+  color: #007bff;
 }
 
 p {
