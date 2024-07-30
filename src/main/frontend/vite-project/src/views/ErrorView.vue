@@ -1,13 +1,18 @@
 <script setup>
-import { useRouter } from 'vue-router'
+import { useRouter, defineEmits } from 'vue-router'
 
+// Define emits for the component
+const emit = defineEmits(['goHome'])
+
+// Router instance
 const router = useRouter()
 
+// Function to navigate to home and emit an event
 const goHome = () => {
   router.push('/')
+  emit('goHome')
 }
 </script>
-
 
 <template>
   <div class="error-container">
@@ -16,8 +21,6 @@ const goHome = () => {
     <button @click="goHome">Go to Home</button>
   </div>
 </template>
-
-
 
 <style scoped>
 .error-container {
