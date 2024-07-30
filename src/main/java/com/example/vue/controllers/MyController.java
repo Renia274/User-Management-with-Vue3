@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 // Enables Cross-Origin Resource Sharing (CORS) from the specified origin.
-@CrossOrigin(origins = "http://localhost:5174")
+@CrossOrigin(origins = "http://localhost:5173")
 public class MyController {
 
     // Handles GET requests to "/api" and returns a JSON response.

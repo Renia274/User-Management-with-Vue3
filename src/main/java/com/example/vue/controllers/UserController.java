@@ -48,9 +48,19 @@ public class UserController {
         return ResponseEntity.ok(user);
     }
 
+
+
+    @GetMapping("/error")
+    public ResponseEntity<String> trigger500Error() {
+        throw new RuntimeException("Simulated server error");
+    }
+
     @DeleteMapping("/users/{id}")
     public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
         userService.deleteUserById(id);
         return ResponseEntity.noContent().build(); // Returns HTTP 204 No Content to indicate successful deletion.
     }
+
+
+
 }

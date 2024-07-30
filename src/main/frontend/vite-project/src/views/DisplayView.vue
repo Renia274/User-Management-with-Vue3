@@ -1,3 +1,67 @@
+<script>
+export default {
+  name: 'DisplayUsers',
+  data() {
+    return {
+      users: [],       // Holds the users data
+      page: 0,         // Current page number
+      size: 10,        // Page size
+      totalPages: 0    // Total number of pages
+    };
+  },
+  async created() {
+    await this.fetchUsers(); // Fetch users on component creation
+  },
+  methods: {
+    async fetchUsers() {
+      try {
+        const response = await fetch(`/api/v/users?page=${this.page}&size=${this.size}`);
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        const data = await response.json();
+        this.users = data.content; // Set the fetched data to users
+        this.totalPages = data.totalPages; // Set the total pages
+      } catch (error) {
+        this.$router.push({ path: '/error', query: { message: error.message } });
+      }
+    },
+    async deleteUser(id) {
+      try {
+        // throw new Error('Forced error for testing');
+        const response = await fetch(`/api/v/users/${id}`, {
+          method: 'DELETE',
+        });
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        await this.fetchUsers(); // Refetch users after deletion
+      } catch (error) {
+        this.$router.push({ path: '/error', query: { message: error.message } });
+      }
+    },
+    viewUser(id) {
+      const routeData = this.$router.resolve({ name: 'ViewUser', params: { id } });
+      window.open(routeData.href, '_blank'); // Open user details in a new tab
+    },
+    nextPage() {
+      if (this.page < this.totalPages - 1) {
+        this.page++;
+        this.fetchUsers(); // Fetch users for the next page
+      }
+    },
+    prevPage() {
+      if (this.page > 0) {
+        this.page--;
+        this.fetchUsers(); // Fetch users for the previous page
+      }
+    }
+  },
+};
+</script>
+
+
+
 <template>
   <div>
     <h2>Display Users</h2>
@@ -33,66 +97,7 @@
   </div>
 </template>
 
-<script>
-export default {
-  name: 'DisplayUsers',
-  data() {
-    return {
-      users: [],       // Holds the users data
-      page: 0,         // Current page number
-      size: 10,        // Page size
-      totalPages: 0    // Total number of pages
-    };
-  },
-  async created() {
-    await this.fetchUsers(); // Fetch users on component creation
-  },
-  methods: {
-    async fetchUsers() {
-      try {
-        const response = await fetch(`/api/v/users?page=${this.page}&size=${this.size}`);
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
-        }
-        const data = await response.json();
-        this.users = data.content; // Set the fetched data to users
-        this.totalPages = data.totalPages; // Set the total pages
-      } catch (error) {
-        console.error('There was a problem with the fetch operation:', error);
-      }
-    },
-    async deleteUser(id) {
-      try {
-        const response = await fetch(`/api/v/users/${id}`, {
-          method: 'DELETE',
-        });
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
-        }
-        await this.fetchUsers(); // Refetch users after deletion
-      } catch (error) {
-        console.error('There was a problem with the fetch operation:', error);
-      }
-    },
-    viewUser(id) {
-      const routeData = this.$router.resolve({ name: 'ViewUser', params: { id } });
-      window.open(routeData.href, '_blank'); // Open user details in a new tab
-    },
-    nextPage() {
-      if (this.page < this.totalPages - 1) {
-        this.page++;
-        this.fetchUsers(); // Fetch users for the next page
-      }
-    },
-    prevPage() {
-      if (this.page > 0) {
-        this.page--;
-        this.fetchUsers(); // Fetch users for the previous page
-      }
-    }
-  },
-};
-</script>
+
 
 <style scoped>
 /* Style for the user table */

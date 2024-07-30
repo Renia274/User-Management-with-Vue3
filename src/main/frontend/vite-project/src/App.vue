@@ -1,11 +1,16 @@
 <script setup>
-import { RouterLink, RouterView } from 'vue-router'
-import HelloWorld from './components/Greetings.vue'
-import Greetings from "@/components/Greetings.vue";
+import { computed } from 'vue'
+import { useRoute } from 'vue-router'
+import Greetings from "@/components/Greetings.vue"
+
+const route = useRoute()
+const isErrorPage = computed(() => route.name === 'error')
 </script>
 
+
+
 <template>
-  <header>
+  <header v-if="!isErrorPage">
     <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="125" height="125" />
 
     <div class="wrapper">
@@ -22,6 +27,8 @@ import Greetings from "@/components/Greetings.vue";
 
   <RouterView />
 </template>
+
+
 
 <style scoped>
 header {
@@ -84,5 +91,12 @@ nav a:first-of-type {
     padding: 1rem 0;
     margin-top: 1rem;
   }
+}
+
+/* Optional: Ensure the error page doesn't overlap with other components */
+body, html {
+  margin: 0;
+  padding: 0;
+  height: 100%;
 }
 </style>
