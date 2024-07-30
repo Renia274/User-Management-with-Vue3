@@ -28,7 +28,6 @@ export default {
     },
     async deleteUser(id) {
       try {
-        // throw new Error('Forced error for testing');
         const response = await fetch(`/api/v/users/${id}`, {
           method: 'DELETE',
         });
@@ -141,7 +140,7 @@ export default {
   padding: 5px 10px;
   border-radius: 4px;
   cursor: pointer;
-  margin-left: 10px;
+  margin-left: 48px;
 }
 
 
@@ -161,7 +160,7 @@ export default {
 
 
 .delete-button:hover {
-  background-color: #c82333; /
+  background-color: #c82333;
 }
 
 /* Style for pagination controls */
@@ -184,7 +183,7 @@ export default {
 
 /* Disabled state for pagination buttons */
 .pagination button:disabled {
-  background-color: #6c757d; /* Gray background for disabled buttons */
+  background-color: #6c757d;
   cursor: not-allowed; /* Default cursor for disabled state */
 }
 

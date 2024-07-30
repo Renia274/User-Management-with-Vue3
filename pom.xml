@@ -8,8 +8,8 @@
         <version>2.7.12</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
-    <groupId>de.idon</groupId>
-    <artifactId>spring-boot-vue-demo</artifactId>
+    <groupId>com.example</groupId>
+    <artifactId>demo-spring-vue</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>spring_boot_with_vue</name>
     <description>Demo project for Spring Boot as backend for Vue 3 (vite)</description>
@@ -48,12 +48,6 @@
             <groupId>org.hibernate.validator</groupId>
             <artifactId>hibernate-validator</artifactId>
             <version>8.0.0.Final</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.hibernate.validator</groupId>
-            <artifactId>hibernate-validator</artifactId>
-            <version>8.0.1.Final</version>
         </dependency>
     </dependencies>
 

@@ -1,6 +1,8 @@
 <script setup>
-import { ref } from 'vue'
-import { useRouter } from 'vue-router'
+import { ref, defineEmits } from 'vue';
+
+// Define emits for the Register component
+const emit = defineEmits(['submit', 'validation']);
 
 // Reactive reference to the user data
 const user = ref({
@@ -12,7 +14,7 @@ const user = ref({
     workAddress: '',
     homeAddress: ''
   }
-})
+});
 
 // Reactive references for validation and message handling
 const message = ref(null)
@@ -21,7 +23,6 @@ const nameMessage = ref(null)
 const surnameMessage = ref(null)
 const genderMessage = ref(null)
 const birthdateMessage = ref(null)
-// const router = useRouter()
 
 // Function to validate the name field
 const validateName = () => {
@@ -31,6 +32,7 @@ const validateName = () => {
   } else {
     nameMessage.value = null;
   }
+  emit('validation', { field: 'name', message: nameMessage.value });
 }
 
 // Function to validate the surname field
@@ -41,6 +43,7 @@ const validateSurname = () => {
   } else {
     surnameMessage.value = null;
   }
+  emit('validation', { field: 'surname', message: surnameMessage.value });
 }
 
 // Function to validate the gender field
@@ -50,6 +53,7 @@ const validateGender = () => {
   } else {
     genderMessage.value = null;
   }
+  emit('validation', { field: 'gender', message: genderMessage.value });
 }
 
 // Function to validate the birthdate field
@@ -59,6 +63,7 @@ const validateBirthdate = () => {
   } else {
     birthdateMessage.value = null;
   }
+  emit('validation', { field: 'birthdate', message: birthdateMessage.value });
 }
 
 // Function to handle form submission
@@ -72,6 +77,7 @@ const submitForm = async () => {
   if (nameMessage.value || surnameMessage.value || genderMessage.value || birthdateMessage.value) {
     message.value = 'Please fill out all mandatory fields correctly.';
     messageType.value = 'error';
+    emit('submit', { success: false, message: message.value });
     return;
   }
 
@@ -87,24 +93,23 @@ const submitForm = async () => {
     if (response.ok) {
       message.value = 'User registered successfully!';
       messageType.value = 'success';
-      // Optionally redirect to another page
-      // setTimeout(() => {
-      //   router.push('/users');
-      // }, 2000);
+      emit('submit', { success: true, message: message.value });
+      // Optionally redirect or handle further
     } else {
       // Parse and display server-side error message
       const errorData = await response.json();
       message.value = `Failed to register user. ${errorData.message}`;
       messageType.value = 'error';
+      emit('submit', { success: false, message: message.value });
     }
   } catch (error) {
     // Display client-side error message
     message.value = 'An error occurred: ' + error.message;
     messageType.value = 'error';
+    emit('submit', { success: false, message: message.value });
   }
 }
 </script>
-
 
 <template>
   <!-- Main container for the registration form -->
@@ -116,19 +121,19 @@ const submitForm = async () => {
         <label for="name">Name:<span class="required-asterisk">*</span></label>
         <!-- Input for user's name, calls validateName on blur -->
         <input type="text" v-model="user.name" @blur="validateName" required>
-        <!-- Displays validation message for name if any -->
+        <!-- Displays validation message for name  -->
         <div v-if="nameMessage" class="validation-message">{{ nameMessage }}</div>
       </div>
       <div class="form-group">
         <label for="surname">Surname:<span class="required-asterisk">*</span></label>
-        <!-- Input for user's surname, calls validateSurname on blur -->
+        <!-- Input for user's surname, calls validateSurname -->
         <input type="text" v-model="user.surname" @blur="validateSurname" required>
-        <!-- Displays validation message for surname if any -->
+        <!-- Displays validation message for surname  -->
         <div v-if="surnameMessage" class="validation-message">{{ surnameMessage }}</div>
       </div>
       <div class="form-group">
         <label for="gender">Gender:<span class="required-asterisk">*</span></label>
-        <!-- Select for user's gender, calls validateGender on blur -->
+        <!-- Select for user's gender, calls validateGender  -->
         <select v-model="user.gender" @blur="validateGender" required>
           <option value="" disabled>Select Gender</option>
           <option value="M">Male</option>
@@ -162,31 +167,25 @@ const submitForm = async () => {
   </div>
 </template>
 
-
-
 <style scoped>
 .register-container {
   max-width: 600px;
   margin: 0 auto;
 }
 
-
 .form-group {
   margin-bottom: 15px;
 }
-
 
 label {
   display: block;
   margin-bottom: 5px;
 }
 
-
 .required-asterisk {
   color: red;
   margin-left: 5px;
 }
-
 
 input, select, textarea {
   width: 100%;
@@ -194,12 +193,10 @@ input, select, textarea {
   box-sizing: border-box;
 }
 
-
 .button-container {
   display: flex;
   justify-content: center;
 }
-
 
 button {
   padding: 10px 15px;
@@ -209,7 +206,6 @@ button {
   border-radius: 4px;
   cursor: pointer;
 }
-
 
 button:hover {
   background-color: darkgreen;
@@ -224,12 +220,10 @@ button:hover {
   text-align: center;
 }
 
-
 .message.success {
   border-color: green;
   color: green;
 }
-
 
 .message.error {
   border-color: red;
