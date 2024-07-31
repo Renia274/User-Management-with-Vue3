@@ -14,19 +14,19 @@ public class Users {
     private Long id;
 
     @NotNull
-    @Column(nullable = false, name = "name")
+    @Column(name = "name")
     private String name;
 
     @NotNull
-    @Column(nullable = false, name = "surname")
+    @Column(name = "surname")
     private String surname;
 
     @NotNull
-    @Column(nullable = false, name = "gender")
+    @Column(name = "gender")
     private String gender;
 
     @NotNull
-    @Column(nullable = false, name = "birth_date")
+    @Column(name = "birth_date")
     private LocalDate birthdate;
 
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "user")

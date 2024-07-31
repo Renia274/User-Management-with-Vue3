@@ -93,7 +93,7 @@ nav a:first-of-type {
   }
 }
 
-/* Optional: Ensure the error page doesn't overlap with other components */
+
 body, html {
   margin: 0;
   padding: 0;

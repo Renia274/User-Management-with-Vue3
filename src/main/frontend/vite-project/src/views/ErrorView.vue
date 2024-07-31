@@ -1,5 +1,13 @@
+<template>
+  <div class="error-container">
+    <h1>Page Not Found</h1>
+    <p>The page you are looking for does not exist.</p>
+    <button @click="goHome">Go to Home</button>
+  </div>
+</template>
+
 <script setup>
-import { useRouter, defineEmits } from 'vue-router'
+import { useRouter } from 'vue-router'
 
 // Define emits for the component
 const emit = defineEmits(['goHome'])
@@ -13,14 +21,6 @@ const goHome = () => {
   emit('goHome')
 }
 </script>
-
-<template>
-  <div class="error-container">
-    <h1>Page Not Found</h1>
-    <p>The page you are looking for does not exist.</p>
-    <button @click="goHome">Go to Home</button>
-  </div>
-</template>
 
 <style scoped>
 .error-container {
@@ -52,6 +52,7 @@ const goHome = () => {
   border: none;
   border-radius: 4px;
   cursor: pointer;
+  transition: background-color 0.3s ease; /* Smooth transition */
 }
 
 .error-container button:hover {

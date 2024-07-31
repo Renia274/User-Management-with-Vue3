@@ -1,62 +1,75 @@
-<script>
-export default {
-  name: 'DisplayUsers',
-  data() {
-    return {
-      users: [],       // Holds the users data
-      page: 0,         // Current page number
-      size: 10,        // Page size
-      totalPages: 0    // Total number of pages
-    };
-  },
-  async created() {
-    await this.fetchUsers(); // Fetch users on component creation
-  },
-  methods: {
-    async fetchUsers() {
-      try {
-        const response = await fetch(`/api/v/users?page=${this.page}&size=${this.size}`);
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
-        }
-        const data = await response.json();
-        this.users = data.content; // Set the fetched data to users
-        this.totalPages = data.totalPages; // Set the total pages
-      } catch (error) {
-        this.$router.push({ path: '/error', query: { message: error.message } });
-      }
-    },
-    async deleteUser(id) {
-      try {
-        const response = await fetch(`/api/v/users/${id}`, {
-          method: 'DELETE',
-        });
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
-        }
-        await this.fetchUsers(); // Refetch users after deletion
-      } catch (error) {
-        this.$router.push({ path: '/error', query: { message: error.message } });
-      }
-    },
-    viewUser(id) {
-      const routeData = this.$router.resolve({ name: 'ViewUser', params: { id } });
-      window.open(routeData.href, '_blank'); // Open user details in a new tab
-    },
-    nextPage() {
-      if (this.page < this.totalPages - 1) {
-        this.page++;
-        this.fetchUsers(); // Fetch users for the next page
-      }
-    },
-    prevPage() {
-      if (this.page > 0) {
-        this.page--;
-        this.fetchUsers(); // Fetch users for the previous page
-      }
-    }
-  },
+<script setup>
+import { ref, computed, onMounted } from 'vue';
+import { useRouter } from 'vue-router';
+
+
+const router = useRouter();
+
+// Reactive state variables for user data and pagination
+const users = ref([]);
+const page = ref(0);
+const size = ref(10); // Number of users per page
+const totalPages = ref(0); // Total number of pages
+
+// Computed properties to determine if the current page is the first or last page
+const isFirstPage = computed(() => page.value === 0);
+const isLastPage = computed(() => page.value >= totalPages.value - 1);
+
+// Function to fetch users from the server and handle errors
+const fetchUsers = async () => {
+  try {
+    // Fetch users from the API
+    const response = await fetch(`/api/v/users?page=${page.value}&size=${size.value}`);
+    if (!response.ok) throw new Error('Network response was not ok');
+    const data = await response.json();
+    users.value = data.content; // Update the users list
+    totalPages.value = data.totalPages; // Update total pages
+  } catch (error) {
+    // Redirect to error page if fetching fails
+    await router.push({ path: '/error', query: { message: error.message } });
+  }
 };
+
+// Function to delete a user and refresh the user list
+const deleteUser = async (id) => {
+  try {
+    // Send DELETE request to the server
+    const response = await fetch(`/api/v/users/${id}`, { method: 'DELETE' });
+    if (!response.ok) throw new Error('Network response was not ok');
+    await fetchUsers(); // Refetch users after deletion
+  } catch (error) {
+    // Redirect to error page if deletion fails
+    await router.push({ path: '/error', query: { message: error.message } });
+  }
+};
+
+// Function to view user details in a new tab
+const viewUser = (id) => {
+  // Resolve the route for the user details page
+  const routeData = router.resolve({ name: 'ViewUser', params: { id } });
+  window.open(routeData.href, '_blank'); // Open the resolved route in a new tab
+};
+
+// Function to go to the next page and fetch users
+const nextPage = async () => {
+  if (!isLastPage.value) {
+    page.value++;
+    await fetchUsers(); // Fetch users for the next page
+  }
+};
+
+// Function to go to the previous page and fetch users
+const prevPage = async () => {
+  if (!isFirstPage.value) {
+    page.value--;
+    await fetchUsers(); // Fetch users for the previous page
+  }
+};
+
+// Fetch users when the component is mounted
+onMounted(() => {
+  fetchUsers(); // Initial fetch when the component is first loaded
+});
 </script>
 
 
@@ -89,9 +102,12 @@ export default {
     </table>
     <!-- Pagination controls -->
     <div class="pagination">
-      <button @click="prevPage" :disabled="page === 0">Previous</button>
+      <!-- Button to go to the previous page -->
+      <button @click="prevPage" :disabled="isFirstPage">Previous</button>
+      <!-- Display current page and total pages -->
       <span>Page {{ page + 1 }} of {{ totalPages }}</span>
-      <button @click="nextPage" :disabled="page >= totalPages - 1">Next</button>
+      <!-- Button to go to the next page -->
+      <button @click="nextPage" :disabled="isLastPage">Next</button>
     </div>
   </div>
 </template>
@@ -99,13 +115,11 @@ export default {
 
 
 <style scoped>
-
 .user-table {
   width: 100%;
   border-collapse: collapse; /* Ensures borders are collapsed into a single border */
   margin-top: 20px; /* Space above the table */
 }
-
 
 .user-table th,
 .user-table td {
@@ -114,13 +128,11 @@ export default {
   text-align: left;
 }
 
-
-.user-table th.header-black {
+.header-black {
   background-color: white;
   color: black;
   font-weight: bold;
 }
-
 
 .view-button {
   background-color: #007bff;
@@ -132,38 +144,23 @@ export default {
   margin-right: 10px; /* Space between buttons */
 }
 
+.view-button:hover {
+  background-color: #0056b3;
+}
 
-.view-button {
-  background-color: #007bff;
+.delete-button {
+  background-color: #dc3545;
   color: white;
   border: none;
   padding: 5px 10px;
   border-radius: 4px;
   cursor: pointer;
-  margin-left: 48px;
 }
-
-
-.view-button:hover {
-  background-color: #0056b3;
-}
-
-
-.delete-button {
-  background-color: #dc3545;
-  color: white;
-  border: none; /* Remove default border */
-  padding: 5px 10px;
-  border-radius: 4px;
-  cursor: pointer;
-}
-
 
 .delete-button:hover {
   background-color: #c82333;
 }
 
-/* Style for pagination controls */
 .pagination {
   margin-top: 20px;
   display: flex;
@@ -181,10 +178,8 @@ export default {
   margin: 0 5px;
 }
 
-/* Disabled state for pagination buttons */
 .pagination button:disabled {
   background-color: #6c757d;
   cursor: not-allowed; /* Default cursor for disabled state */
 }
-
 </style>
