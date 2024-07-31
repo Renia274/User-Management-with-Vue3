@@ -101,7 +101,7 @@ const submitForm = async () => {
   }
 };
 
-// Computed properties for dynamic class binding
+// Computed properties for message type
 const messageClass = computed(() => ({
   message: true,
   success: messageType.value === 'success',
@@ -212,6 +212,23 @@ button:hover {
   background-color: darkgreen;
 }
 
+/* Style for message display */
+.message {
+  margin-top: 20px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  text-align: center;
+}
+
+.message.success {
+  color: green;
+  border:none;
+}
+
+.message.error {
+  color: red;
+  border:none;
+}
 
 .validation-message {
   color: red;
@@ -219,3 +236,4 @@ button:hover {
   margin-top: 5px;
 }
 </style>
+

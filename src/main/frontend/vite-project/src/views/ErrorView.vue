@@ -9,10 +9,10 @@
 <script setup>
 import { useRouter } from 'vue-router'
 
-// Define emits for the component
+
 const emit = defineEmits(['goHome'])
 
-// Router instance
+
 const router = useRouter()
 
 // Function to navigate to home and emit an event
@@ -52,7 +52,7 @@ const goHome = () => {
   border: none;
   border-radius: 4px;
   cursor: pointer;
-  transition: background-color 0.3s ease; /* Smooth transition */
+  transition: background-color 0.3s ease;
 }
 
 .error-container button:hover {
