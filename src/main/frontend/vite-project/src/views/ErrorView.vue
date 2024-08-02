@@ -1,10 +1,3 @@
-<template>
-  <div class="error-container">
-    <h1>Page Not Found</h1>
-    <p>The page you are looking for does not exist.</p>
-    <button @click="goHome">Go to Home</button>
-  </div>
-</template>
 
 <script setup>
 import { useRouter } from 'vue-router'
@@ -21,6 +14,15 @@ const goHome = () => {
   emit('goHome')
 }
 </script>
+
+<template>
+  <div class="error-container">
+    <h1>Page Not Found</h1>
+    <p>The page you are looking for does not exist.</p>
+    <button @click="goHome">Go to Home</button>
+  </div>
+</template>
+
 
 <style scoped>
 .error-container {

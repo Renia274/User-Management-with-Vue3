@@ -1,9 +1,11 @@
 package com.example.vue.data;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
+import java.util.Date;
 
 @Entity
 @Table(name = "registered_users")
@@ -26,8 +28,9 @@ public class Users {
     private String gender;
 
     @NotNull
+    @JsonFormat(pattern = "MM/dd/yyyy")
     @Column(name = "birth_date")
-    private LocalDate birthdate;
+    private Date birthdate;
 
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "user")
     @JsonManagedReference
@@ -66,11 +69,11 @@ public class Users {
         this.gender = gender;
     }
 
-    public LocalDate getBirthdate() {
+    public Date getBirthdate() {
         return birthdate;
     }
 
-    public void setBirthdate(LocalDate birthdate) {
+    public void setBirthdate(Date birthdate) {
         this.birthdate = birthdate;
     }
 
