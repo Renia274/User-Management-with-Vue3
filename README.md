@@ -14,7 +14,7 @@ This repository contains a full stack user management application that implement
 
 The homepage contains a menu with the following options:
 
-- **Registerr**: Navigates to the page where a new user can be registered.
+- **Register**: Navigates to the page where a new user can be registered.
 - **Users**: Navigates to the page where all users are displayed.
 
 ### Register New User
