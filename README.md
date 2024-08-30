@@ -1,4 +1,4 @@
-# Demo Spring Vue3
+# User Management with Vue3
 
 ## Overview
 
