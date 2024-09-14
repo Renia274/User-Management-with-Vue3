@@ -23,36 +23,16 @@ public class Address {
     @JsonBackReference
     private Users user;
 
+    // Getters and Setters
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
 
-    public Long getId() {
-        return id;
-    }
+    public String getWorkAddress() { return workAddress; }
+    public void setWorkAddress(String workAddress) { this.workAddress = workAddress; }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+    public String getHomeAddress() { return homeAddress; }
+    public void setHomeAddress(String homeAddress) { this.homeAddress = homeAddress; }
 
-    public String getWorkAddress() {
-        return workAddress;
-    }
-
-    public void setWorkAddress(String workAddress) {
-        this.workAddress = workAddress;
-    }
-
-    public String getHomeAddress() {
-        return homeAddress;
-    }
-
-    public void setHomeAddress(String homeAddress) {
-        this.homeAddress = homeAddress;
-    }
-
-    public Users getUser() {
-        return user;
-    }
-
-    public void setUser(Users user) {
-        this.user = user;
-    }
+    public Users getUser() { return user; }
+    public void setUser(Users user) { this.user = user; }
 }

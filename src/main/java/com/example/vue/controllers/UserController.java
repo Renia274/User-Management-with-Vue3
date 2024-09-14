@@ -9,16 +9,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-
 @RestController
 @RequestMapping("/api/v")
-// @CrossOrigin(origins = "http://localhost:5173")
+//@CrossOrigin(origins = "http://localhost:5173") // Adjust to match your frontend's origin
 public class UserController {
 
-    // Automatically injects an instance of UserService into this controller.
     @Autowired
     private UserService userService;
-
 
     @PostMapping("/register")
     public ResponseEntity<?> registerUser(@RequestBody Users user) {
@@ -26,12 +23,14 @@ public class UserController {
             Users savedUser = userService.saveUser(user);
             return ResponseEntity.ok(savedUser);
         } catch (FillingAndValidationException e) {
-            // If there is a validation exception, returns HTTP 400 Bad Request with the exception message.
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        } catch (Exception e) {
+            // Log the error and send a generic error message
+            e.printStackTrace(); // Or use a logger to log the exception
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An unexpected error occurred.");
         }
     }
 
-    // Handles GET requests to "/api/v/users" to retrieve a paginated list of users.
     @GetMapping("/users")
     public ResponseEntity<Page<Users>> getAllUsers(
             @RequestParam(name = "page", defaultValue = "0") int page,
@@ -40,27 +39,15 @@ public class UserController {
         return ResponseEntity.ok(users);
     }
 
-
     @GetMapping("/users/{id}")
     public ResponseEntity<Users> getUserById(@PathVariable Long id) {
-        // Calls the service to get a user by ID.
         Users user = userService.getUserById(id);
         return ResponseEntity.ok(user);
-    }
-
-
-
-    @GetMapping("/error")
-    public ResponseEntity<String> trigger500Error() {
-        throw new RuntimeException("Simulated server error");
     }
 
     @DeleteMapping("/users/{id}")
     public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
         userService.deleteUserById(id);
-        return ResponseEntity.noContent().build(); // Returns HTTP 204 No Content to indicate successful deletion.
+        return ResponseEntity.noContent().build();
     }
-
-
-
 }
